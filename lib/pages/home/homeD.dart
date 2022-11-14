@@ -83,49 +83,52 @@ class _TaskListState extends State<TaskList>
                                     )
                                 ]
                             ),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                    const Text(
-                                        "Task Title",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none
-                                        )
-                                    ),
-                                    const SizedBox(height: 10),
-                                    const Text(
-                                        "Task Description",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.grey,
-                                            decoration: TextDecoration.none
-                                        )
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                            Text(
-                                                "Task Date",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.grey,
-                                                    decoration: TextDecoration.none
-                                                )
-                                            ),
-                                            Text(
-                                                "Task Time",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.grey,
-                                                    decoration: TextDecoration.none
-                                                )
+                            child: TextButton(
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                        const Text(
+                                            "Task Title",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                decoration: TextDecoration.none
                                             )
-                                        ]
-                                    )
-                                ]
+                                        ),
+                                        const SizedBox(height: 10),
+                                        const Text(
+                                            "Task Description",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.none
+                                            )
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: const [
+                                                Text(
+                                                    "Task Date",
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey,
+                                                        decoration: TextDecoration.none
+                                                    )
+                                                ),
+                                                Text(
+                                                    "Task Time",
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey,
+                                                        decoration: TextDecoration.none
+                                                    )
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                ),
+                                onPressed: () => print("Task ${index + 1} pressed")
                             )
                         );
                     }

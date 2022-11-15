@@ -11,12 +11,10 @@ import 'package:vrouter/vrouter.dart';
 void main() async
 { 
     WidgetsFlutterBinding.ensureInitialized();
-    await Window.initialize();
-
-    if (Platform.isWindows) 
+    
+    if (Platform.isWindows)
     {
-        //await Window.hideWindowControls();
-        //await Window.
+        await Window.initialize();
     }
 
     runApp(const TaskAppMain());

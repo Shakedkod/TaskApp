@@ -1,74 +1,28 @@
-// ignore_for_file: file_names, non_constant_identifier_names, must_be_immutable
+// ignore_for_file: file_names, non_constant_identifier_names, must_be_immutable, depend_on_referenced_packages
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:task_app/pages/tasks/task.dart';
 
-Map GetTasks()
+Future<Map> GetTasks() async
 {
-    return {
-        "1": {
-            "title": "tasktitle1",
-            "type": "normal",
-            "description": "taskdescription1",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-01 00:00:00.000"
-        },
-        "2": {
-            "title": "tasktitle2",
-            "type": "normal",
-            "description": "taskdescription2",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-02 00:00:00.000"
-        },
-        "3": {
-            "title": "tasktitle3",
-            "type": "normal",
-            "description": "taskdescription3",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-03 00:00:00.000"
-        },
-        "4": {
-            "title": "tasktitle4",
-            "type": "normal",
-            "description": "taskdescription4",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-04 00:00:00.000"
-        },
-        "5": {
-            "title": "tasktitle5",
-            "type": "normal",
-            "description": "taskdescription5",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-05 00:00:00.000"
-        },
-        "6": {
-            "title": "tasktitle6",
-            "type": "normal",
-            "description": "taskdescription6",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-06 00:00:00.000"
-        },
-        "7": {
-            "title": "tasktitle7",
-            "type": "normal",
-            "description": "taskdescription7",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-07 00:00:00.000"
-        },
-        "8": {
-            "title": "tasktitle8",
-            "type": "normal",
-            "description": "taskdescription8",
-            "date": "2021-01-01 00:00:00.000",
-            "deadline": "2023-08-08 00:00:00.000"
-        },
-    };
+    // get the task from the json file
+    // return the tasks
+
+    String filePath = "assets/tasks.json";
+    String fileContent = await rootBundle.loadString(filePath);
+
+    Map tasks = jsonDecode(fileContent);
+
+    return tasks;
 }
 
-List<Task> GetTaskList()
+Future<List<Task>> GetTaskList() async
 {
     List<Task> tasks = [];
-    Map tasksMap = GetTasks();
+    Map tasksMap = await GetTasks();
 
     tasksMap.forEach((key, value) 
     {

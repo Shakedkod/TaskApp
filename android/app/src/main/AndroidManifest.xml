@@ -1,8 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.shakedkod.task.app">
-   <application
-        android:label="Task App"
-        android:name="TaskApp"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="task_app"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

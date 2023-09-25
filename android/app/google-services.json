@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1066801771405",
+    "project_id": "taskapp-369413",
+    "storage_bucket": "taskapp-369413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066801771405:android:fea30fa029c3164f22c3c4",
+        "android_client_info": {
+          "package_name": "com.example.firebase_with_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZm_v7SdOQdiEKw12qeFr17uxF3qOtbXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066801771405:android:e5244489eef23ddb22c3c4",
+        "android_client_info": {
+          "package_name": "com.example.task_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZm_v7SdOQdiEKw12qeFr17uxF3qOtbXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

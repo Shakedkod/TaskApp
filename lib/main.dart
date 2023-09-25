@@ -1,81 +1,65 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:io';
-
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
-import 'package:task_app/pages/home/home.dart';
 import 'package:vrouter/vrouter.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
+import 'pages/Home.dart';
+import 'pages/Projects.dart';
+import 'pages/Tests.dart';
+import 'pages/TestDetails.dart';
+import 'package:task_app/pages/addTest.dart';
+import 'pages/ProjectDetails.dart';
 
 void main() async
-{ 
-    WidgetsFlutterBinding.ensureInitialized();
-    
-    if (Platform.isWindows)
-    {
-        await Window.initialize();
-    }
+{
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    runApp(const TaskAppMain());
-
-    if (Platform.isWindows)
-    {
-        const Size winSize = Size(500, 1040);
-
-        doWhenWindowReady(() 
-            {
-                appWindow
-                    ..size = winSize
-                    ..title = "Task App"
-                    ..minSize = winSize
-                    ..maxSize = winSize
-                    ..alignment = Alignment.center
-                    ..show();
-            }
-        );
-    }
+    runApp(const TaskApp());
 }
 
-class TaskAppMain extends StatefulWidget 
+class TaskApp extends StatefulWidget 
 {
-    const TaskAppMain({Key? key}) : super(key: key);
+    const TaskApp({super.key});
 
     @override
-    State<TaskAppMain> createState() => _TaskAppMainState();
+    State<TaskApp> createState() => _TaskAppState();
 }
 
-class _TaskAppMainState extends State<TaskAppMain> 
+class _TaskAppState extends State<TaskApp> 
 {
-    WindowEffect effect = WindowEffect.transparent;
-    
     @override
-    void initState() 
-    {
-        super.initState();
-        Window.setEffect(
-            effect: effect,
-            color: const Color.fromARGB(74, 25, 0, 255),
-            dark: true
-        );
-    }
-
-    @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context) 
     {
         return VRouter(
             debugShowCheckedModeBanner: false,
-            transitionDuration: const Duration(seconds: 0),
-            mode: VRouterMode.history,
-            title: "ShakedKod's Task App",
-            initialUrl: "/",
+            transitionDuration: const Duration(milliseconds: 0),
             routes: [
-                VRouteRedirector(path: "/", redirectTo: "/home"),
                 VWidget(
-                    path: "/home",
+                    path: '/',
                     widget: const Home(),
-                    name: "home"
-                )
+                ),
+                VWidget(
+                    path: '/tests',
+                    widget: const Tests(),
+                ),
+                VWidget(
+                    path: '/add-test',
+                    widget: const AddTest(),
+                ),
+                VWidget(
+                    path: '/test/:id',
+                    widget: const TestDetails(),
+                ),
+                VWidget(
+                    path: "/projects",
+                    widget: const Projects(),
+                ),
+                VWidget(
+                    path: "/project/:id",
+                    widget: const ProjectDetails(),
+                ),
             ],
         );
     }

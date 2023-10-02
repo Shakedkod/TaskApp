@@ -23,107 +23,110 @@ class _HomeState extends State<Home>
             backgroundColor: Color.fromARGB(255, 0, 7, 41),
             body: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                        const SizedBox(height: 100),
-
-                        Text(
-                            "Welcome to the",
-                            style: GoogleFonts.chakraPetch(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                            const SizedBox(height: 100),
+                    
+                            Text(
+                                "Welcome to the",
+                                style: GoogleFonts.chakraPetch(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                ),
                             ),
-                        ),
-                        GradientText(
-                            "Task App",
-                            style: GoogleFonts.philosopher(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
+                            GradientText(
+                                "Task App",
+                                style: GoogleFonts.philosopher(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                ),
+                                gradient: const LinearGradient(
+                                    colors: [
+                                        Color(0xFF91CDFF),
+                                        Color(0xFF1594FC)
+                                    ],
+                                    begin: Alignment.centerRight,
+                                    end: Alignment.centerLeft,
+                                ),
                             ),
-                            gradient: const LinearGradient(
-                                colors: [
-                                    Color(0xFF91CDFF),
-                                    Color(0xFF1594FC)
+                    
+                            const SizedBox(height: 50),
+                    
+                            StreamBuilder(
+                                stream: FirebaseFirestore.instance.collection('School').snapshots(),
+                                builder: (context, snapshot)
+                                {
+                                    if (!snapshot.hasData) return const Text("Loading...");
+                    
+                                    return Directionality(
+                                        textDirection: TextDirection.rtl,
+                                        child: ListView.builder(
+                                            itemCount: snapshot.data!.docs.length,
+                                            itemExtent: 80,
+                                            physics: const ClampingScrollPhysics(),
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index)
+                                            {
+                                                return buildListItem(context, snapshot.data!.docs[index]);
+                                            },
+                                        ),
+                                    );
+                                }
+                            ),
+                    
+                            const SizedBox(height: 100),
+                    
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        child: ElevatedButton(
+                                            onPressed: () => context.vRouter.to('/add-test'),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color.fromARGB(255, 0, 140, 255),
+                                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(35),
+                                                ),
+                                            ),
+                                            child: Text(
+                                                "Add Test",
+                                                style: GoogleFonts.chakraPetch(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.normal,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        child: ElevatedButton(
+                                            onPressed: () => context.vRouter.to('/add-project'),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color.fromARGB(255, 0, 140, 255),
+                                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(35),
+                                                ),
+                                            ),
+                                            child: Text(
+                                                "Add Project",
+                                                style: GoogleFonts.chakraPetch(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.normal,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
                                 ],
-                                begin: Alignment.centerRight,
-                                end: Alignment.centerLeft,
                             ),
-                        ),
-
-                        const SizedBox(height: 50),
-
-                        StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('School').snapshots(),
-                            builder: (context, snapshot)
-                            {
-                                if (!snapshot.hasData) return const Text("Loading...");
-
-                                return Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: ListView.builder(
-                                        itemCount: snapshot.data!.docs.length,
-                                        itemExtent: 80,
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index)
-                                        {
-                                            return buildListItem(context, snapshot.data!.docs[index]);
-                                        },
-                                    ),
-                                );
-                            }
-                        ),
-
-                        const SizedBox(height: 100),
-
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    child: ElevatedButton(
-                                        onPressed: () => context.vRouter.to('/add-test'),
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color.fromARGB(255, 0, 140, 255),
-                                            padding: const EdgeInsets.symmetric(vertical: 20),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(35),
-                                            ),
-                                        ),
-                                        child: Text(
-                                            "Add Test",
-                                            style: GoogleFonts.chakraPetch(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal,
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    child: ElevatedButton(
-                                        onPressed: () => context.vRouter.to('/add-project'),
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color.fromARGB(255, 0, 140, 255),
-                                            padding: const EdgeInsets.symmetric(vertical: 20),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(35),
-                                            ),
-                                        ),
-                                        child: Text(
-                                            "Add Project",
-                                            style: GoogleFonts.chakraPetch(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal,
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                            ],
-                        ),
-                    ],
+                        ],
+                    ),
                 ),
             ),
         );

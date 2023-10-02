@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:task_app/types.dart';
 import 'package:vrouter/vrouter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:date_field/date_field.dart";
@@ -19,7 +20,7 @@ class AddTest extends StatefulWidget
 class _AddTestState extends State<AddTest> 
 {
     final GlobalKey<FormState> _formKey = GlobalKey();
-    TextEditingController? _subjectController;
+    final TextEditingController _textEditingController = TextEditingController();
     DateTime? _dateAndTime;
     DateTime? _endTime;
 
@@ -32,6 +33,41 @@ class _AddTestState extends State<AddTest>
         return result;
     }
 
+    Future<void> _sendForm(BuildContext context) async {
+        if (_formKey.currentState!.validate()) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Processing Data')),
+            );
+
+            // set the date of the _endTime to the date of the _dateAndTime but with the time of the _endTime
+            _endTime = DateTime(_dateAndTime!.year, _dateAndTime!.month, _dateAndTime!.day, _endTime!.hour, _endTime!.minute);
+
+            Test newTest = Test(
+                subject: _textEditingController.text,
+                startTime: _dateAndTime!,
+                endTime: _endTime!
+            );
+
+            try 
+            {
+                CollectionReference coll = FirebaseFirestore.instance.collection('School');
+
+                await coll.add({
+                    'subject': newTest.subject,
+                    "type": "test",
+                    'startTime': newTest.startTime,
+                    'endTime': newTest.endTime,
+                });
+
+                context.vRouter.to("/");
+            } 
+            catch (e) 
+            {
+                print('Error adding test to Firestore: $e');
+            }
+        }
+    }
+
     @override
     Widget build(BuildContext context) 
     {
@@ -41,6 +77,8 @@ class _AddTestState extends State<AddTest>
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                     children: [
+                        const SizedBox(height: 20),
+
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -59,7 +97,7 @@ class _AddTestState extends State<AddTest>
                                     gradient: const LinearGradient(
                                         colors: [
                                             Color(0xFFFFC400),
-                                            Color(0xFFB37400),
+                                            Color(0xFFB37400)
                                         ],
                                         begin: Alignment.centerRight,
                                         end: Alignment.centerLeft,
@@ -81,11 +119,11 @@ class _AddTestState extends State<AddTest>
                                 textDirection: TextDirection.ltr,
                                 children: [
                                     TextFormField(
-                                        controller: _subjectController,
+                                        controller: _textEditingController,
                                         decoration: InputDecoration(
                                             labelText: "Test Subject",
                                             labelStyle: GoogleFonts.chakraPetch(
-                                                color: Color(0xFFD8A120),
+                                                color: const Color(0xFFD8A120),
                                             ),
                                             fillColor: Colors.white,
                                             focusedBorder: const OutlineInputBorder(
@@ -174,56 +212,43 @@ class _AddTestState extends State<AddTest>
 
                                     const SizedBox(height: 50),
 
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                            if (_formKey.currentState!.validate()) {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                    const SnackBar(content: Text('Processing Data')),
-                                                );
-
-                                                // save the test to the database
-                                                final docRef = FirebaseFirestore.instance.collection('School').doc('tests');
-                                                Map<String, dynamic> data = {};
-                                                await docRef.get().then(
-                                                    (DocumentSnapshot doc) {
-                                                        data = doc.data() as Map<String, dynamic>;
-                                                        print(data);
-                                                    },
-                                                    onError: (e) => print("Error getting document: $e"),
-                                                );
-                                                print(data);
-
-                                                // generate the id
-                                                String id = data.length.toString();
-
-
-                                                //convert the [DateTime] to [Timestamp]
-                                                Timestamp dateTimeStamp = Timestamp.fromDate(_dateAndTime!);
-                                                Timestamp endTimeStamp = Timestamp.fromDate(_endTime!);
-
-                                                data[id] = {
-                                                    "subject": _subjectController!.text,
-                                                    "time": dateTimeStamp,
-                                                    "endTime": endTimeStamp,
-                                                };
-
-                                                FirebaseFirestore.instance.collection('School').doc('tests').set(data).onError((e, _) => print("Error writing document: $e"));
-                                            }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color.fromARGB(255, 0, 140, 255),
-                                            padding: const EdgeInsets.symmetric(vertical: 20),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(35),
-                                            ),
-                                        ),
-                                        child: Text(
-                                            "Add Test",
-                                            style: GoogleFonts.chakraPetch(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal,
-                                            ),
-                                        ),
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.2,
+                                        child: Stack(
+                                            children: [
+                                                Positioned.fill(
+                                                    child: Container(
+                                                        decoration: const BoxDecoration(
+                                                            gradient: LinearGradient(
+                                                                colors: [
+                                                                    Color(0xFFFFC400),
+                                                                    Color(0xFFB37400)
+                                                                ],
+                                                            ),
+                                                            borderRadius: BorderRadius.all(Radius.circular(35)),
+                                                        )
+                                                    )
+                                                ),
+                                                Center(
+                                                    child: TextButton(
+                                                        onPressed:  () async => await _sendForm(context),
+                                                        style: TextButton.styleFrom(
+                                                            padding: const EdgeInsets.all(15),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(35),
+                                                            ),
+                                                        ),
+                                                        child: Text(
+                                                            "Add Test",
+                                                            style: GoogleFonts.chakraPetch(
+                                                                fontSize: 25,
+                                                                color: Colors.white,
+                                                            ),
+                                                        )
+                                                    ),
+                                                )
+                                            ],
+                                        )
                                     )
                                 ]
                             ),
@@ -232,5 +257,12 @@ class _AddTestState extends State<AddTest>
                 )
             )
         );
+    }
+
+    @override
+    void dispose() 
+    {
+        _textEditingController.dispose();
+        super.dispose();
     }
 }

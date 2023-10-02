@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vrouter/vrouter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:task_app/gredient.dart';
+import 'package:task_app/components/listItem.dart';
 
 class Home extends StatefulWidget 
 {
@@ -16,7 +18,7 @@ class _HomeState extends State<Home>
 {
     @override
     Widget build(BuildContext context) 
-    {
+    { 
         return Scaffold(
             backgroundColor: Color.fromARGB(255, 0, 7, 41),
             body: SizedBox(
@@ -42,62 +44,84 @@ class _HomeState extends State<Home>
                             ),
                             gradient: const LinearGradient(
                                 colors: [
-                                    Color.fromARGB(255, 113, 191, 255),
-                                    Color(0xFF0079DB),
+                                    Color(0xFF91CDFF),
+                                    Color(0xFF1594FC)
                                 ],
                                 begin: Alignment.centerRight,
                                 end: Alignment.centerLeft,
                             ),
                         ),
 
-                        SizedBox(height: 250),
+                        const SizedBox(height: 50),
 
-                        // 2 buttons
-                        // 1 - Tests
-                        // 2 - Projects
+                        StreamBuilder(
+                            stream: FirebaseFirestore.instance.collection('School').snapshots(),
+                            builder: (context, snapshot)
+                            {
+                                if (!snapshot.hasData) return const Text("Loading...");
 
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: ElevatedButton(
-                                onPressed: () => context.vRouter.to('/tests'),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(255, 0, 140, 255),
-                                    padding: const EdgeInsets.symmetric(vertical: 20),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(35),
+                                return Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: ListView.builder(
+                                        itemCount: snapshot.data!.docs.length,
+                                        itemExtent: 80,
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index)
+                                        {
+                                            return buildListItem(context, snapshot.data!.docs[index]);
+                                        },
                                     ),
-                                ),
-                                child: Text(
-                                    "Tests",
-                                    style: GoogleFonts.chakraPetch(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
-                                    ),
-                                ),
-                            ),
+                                );
+                            }
                         ),
 
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 100),
 
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: ElevatedButton(
-                                onPressed: () => context.vRouter.to('/projects'),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(255, 0, 140, 255),
-                                    padding: const EdgeInsets.symmetric(vertical: 20),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(35),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    child: ElevatedButton(
+                                        onPressed: () => context.vRouter.to('/add-test'),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: const Color.fromARGB(255, 0, 140, 255),
+                                            padding: const EdgeInsets.symmetric(vertical: 20),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(35),
+                                            ),
+                                        ),
+                                        child: Text(
+                                            "Add Test",
+                                            style: GoogleFonts.chakraPetch(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.normal,
+                                            ),
+                                        ),
                                     ),
                                 ),
-                                child: Text(
-                                    "Projects",
-                                    style: GoogleFonts.chakraPetch(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    child: ElevatedButton(
+                                        onPressed: () => context.vRouter.to('/add-project'),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: const Color.fromARGB(255, 0, 140, 255),
+                                            padding: const EdgeInsets.symmetric(vertical: 20),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(35),
+                                            ),
+                                        ),
+                                        child: Text(
+                                            "Add Project",
+                                            style: GoogleFonts.chakraPetch(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.normal,
+                                            ),
+                                        ),
                                     ),
                                 ),
-                            ),
+                            ],
                         ),
                     ],
                 ),

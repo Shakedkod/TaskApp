@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Test
 {
-    String id;
     String subject;
-    Timestamp date;
+    DateTime startTime;
+    DateTime endTime;
     
-    Test(this.id, this.subject, this.date);
+    Test({required this.subject, required this.startTime, required this.endTime});
 }

@@ -86,7 +86,7 @@ Widget buildListItem(BuildContext context, DocumentSnapshot doc)
                 String subject = data["subject"] ?? "Unknown Subject";
                 if (subject != "Unknown Subject") subject = "מבחן ב$subject";
 
-                DateTime dateTime = data["startTime"].toDate();
+                DateTime dateTime = data["date"].toDate();
                 String formattedDate = DateFormat('dd-MM-yy hh:mm').format(dateTime);
 
                 return _createListTile(subject, formattedDate, () => context.vRouter.to("/test/${doc.id}"));

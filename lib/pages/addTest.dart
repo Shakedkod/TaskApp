@@ -55,7 +55,7 @@ class _AddTestState extends State<AddTest>
                 await coll.add({
                     'subject': newTest.subject,
                     "type": "test",
-                    'startTime': newTest.startTime,
+                    'date': newTest.startTime,
                     'endTime': newTest.endTime,
                 });
 

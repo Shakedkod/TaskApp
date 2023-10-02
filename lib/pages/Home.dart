@@ -56,7 +56,7 @@ class _HomeState extends State<Home>
                             const SizedBox(height: 50),
                     
                             StreamBuilder(
-                                stream: FirebaseFirestore.instance.collection('School').snapshots(),
+                                stream: FirebaseFirestore.instance.collection('School').orderBy("date").snapshots(),
                                 builder: (context, snapshot)
                                 {
                                     if (!snapshot.hasData) return const Text("Loading...");
@@ -78,7 +78,7 @@ class _HomeState extends State<Home>
                                 }
                             ),
                     
-                            const SizedBox(height: 100),
+                            const SizedBox(height: 50),
                     
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

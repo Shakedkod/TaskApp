@@ -20,7 +20,7 @@ class _HomeState extends State<Home>
     Widget build(BuildContext context) 
     { 
         return Scaffold(
-            backgroundColor: Color.fromARGB(255, 0, 7, 41),
+            backgroundColor: const Color.fromARGB(255, 0, 7, 41),
             body: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: SingleChildScrollView(

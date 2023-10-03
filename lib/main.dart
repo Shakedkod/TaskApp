@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/notificationsApi.dart';
 import 'package:vrouter/vrouter.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -14,6 +15,7 @@ void main() async
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
     );
+    await FirebaseApi().initNotifications();
 
     runApp(const TaskApp());
 }

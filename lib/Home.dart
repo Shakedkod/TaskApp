@@ -1,3 +1,6 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:vrouter/vrouter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +19,19 @@ class Home extends StatefulWidget
 
 class _HomeState extends State<Home> 
 {
+    triggerNotification() async
+    {
+        await AwesomeNotifications().createNotification(
+            content: NotificationContent(
+                id: 10,
+                channelKey: 'basic_channel',
+                title: 'Simple Notification',
+                body: 'Simple body',
+                notificationLayout: NotificationLayout.Default,
+            ),
+        );
+    }
+
     @override
     Widget build(BuildContext context) 
     { 
@@ -54,15 +70,15 @@ class _HomeState extends State<Home>
                             ),
                     
                             const SizedBox(height: 50),
-                    
+
                             StreamBuilder(
-                                stream: FirebaseFirestore.instance.collection('School')
-                                    .where("date", isGreaterThanOrEqualTo: DateTime.now())
-                                    .orderBy("date").snapshots(),
+                                stream: FirebaseFirestore.instance.collection('School').orderBy("date").snapshots(),
                                 builder: (context, snapshot)
                                 {
+                                    print("snapshot2");
+
                                     if (!snapshot.hasData) return const Text("Loading...");
-                    
+
                                     return Directionality(
                                         textDirection: TextDirection.rtl,
                                         child: ListView.builder(

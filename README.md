@@ -1,16 +1,16 @@
-# task_app
+# TASK APP
+an application for my tasks (that half works beacuse i dont have the time to fix the not working part)
 
-A new Flutter project.
+## Fetures:
+* creating tasks
+* viewing tasks
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Build
+download [flutter](https://flutter.dev) and run `flutter doctor` to ckeck that you have all of the flutter dependencies.
+go to the folder and run these commands:
+```
+flutter pub get
+flutter run
+```
+1. gets the packages (like npm install)
+2. runs the flutter application(supposed to work in windows, but if dosen't you will need an android emulator or device)
